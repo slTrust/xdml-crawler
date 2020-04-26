@@ -75,7 +75,7 @@ public class JdbcCrawlerDao implements CrawlerDao{
     @Override
     public void insertProcessedLink(String link) {
         try {
-            this.updateDatabase(link,"INSERT INTO LINKS_TO_BE_PROCESSED (link) values (?)");
+            this.updateDatabase(link, "INSERT INTO LINKS_TO_BE_PROCESSED (link) values (?)");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -84,7 +84,7 @@ public class JdbcCrawlerDao implements CrawlerDao{
     @Override
     public void insertLinkToBeProcessed(String href) {
         try {
-            this.updateDatabase(href,"INSERT INTO LINKS_TO_BE_PROCESSED (link) values (?)");
+            this.updateDatabase(href, "INSERT INTO LINKS_TO_BE_PROCESSED (link) values (?)");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

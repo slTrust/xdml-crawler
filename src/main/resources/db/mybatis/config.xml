@@ -7,15 +7,14 @@
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="org.h2.Driver"/>
-                <property name="url" value="jdbc:h2:file:/Users/hjx/Desktop/xdml-crawler/news"/>
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/news?characterEncoding=utf-8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="root"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
-        <!-- orm映射由他来决定，目录应该在 resources 下-->
         <mapper resource="db/mybatis/MyMapper.xml"/>
     </mappers>
 </configuration>
