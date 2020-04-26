@@ -4,13 +4,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.sql.*;
 
-public class DataBaseAccessObject implements CrawlerDao{
+public class JdbcCrawlerDao implements CrawlerDao{
     private static final String USER_NAME = "root";
     private static final String PASSWORD = "root";
     private final Connection connection;
 
     @SuppressFBWarnings("DMI_CONSTANT_DB_PASSWORD")
-    public DataBaseAccessObject() {
+    public JdbcCrawlerDao() {
         try{
             this.connection = DriverManager.getConnection("jdbc:h2:file:/Users/hjx/Desktop/xdml-crawler/news", USER_NAME, PASSWORD);
         }catch (SQLException e){
@@ -18,7 +18,7 @@ public class DataBaseAccessObject implements CrawlerDao{
         }
     }
 
-    public String getNextLink(String sql) throws SQLException {
+    private String getNextLink(String sql) throws SQLException {
         ResultSet resultSet = null;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             resultSet = statement.executeQuery();
@@ -47,7 +47,7 @@ public class DataBaseAccessObject implements CrawlerDao{
         }
     }
 
-    public void insertNewsIntoDataBase(String url, String title, String content) throws SQLException {
+    public void insertNewsIntoDatabase(String url, String title, String content) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("insert into news (url, title, content, created_at,MODIFIED_AT)values(?,?,?,now(),now())")) {
             statement.setString(1, url);
             statement.setString(2, title);
@@ -70,5 +70,23 @@ public class DataBaseAccessObject implements CrawlerDao{
             }
         }
         return false;
+    }
+
+    @Override
+    public void insertProcessedLink(String link) {
+        try {
+            this.updateDatabase(link,"INSERT INTO LINKS_TO_BE_PROCESSED (link) values (?)");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void insertLinkToBeProcessed(String href) {
+        try {
+            this.updateDatabase(href,"INSERT INTO LINKS_TO_BE_PROCESSED (link) values (?)");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
