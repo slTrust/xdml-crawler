@@ -29,6 +29,6 @@ hs_err_pid*
 target/
 
 *.db
-
+esdata/
 mysql_data/
 
